@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<!-- saved from url=(0089)file:///C:/Users/Elbertio/AppData/Roaming/Skype/My%20Skype%20Received%20Files/JSGame.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+        <title>FALLING ROCKS</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            canvas {
+                background-color: lightblue;
+                display: block;
+            }
+            #boundaries {
+                font-family: Arial Black;
+                margin: 0 auto;
+                width: 1000px;
+
+            </style>
+            <style type="text/css"></style>
+        </head>
+        <body>
+            <div id="boundaries">
+                <h1>METEOR SHOWER || E Choi</h1>
+                <canvas id="canvas" width="500" height="350"></canvas>
+                <script>
+                    //Elbert Choi
+                    //Dodge Falling Meteors
+                    //Jan 7, 2016
+                    //Dodge Rocks
+
+                    //Create the Canvas that the game will be played on
+                    var canvas = document.getElementById("canvas");
+                    var ctx = canvas.getContext("2d");
+
+                    //Declare Images for character and rocks
+                    var onePunch = new Image();
+                    onePunch.src = "char.png";
+                    var meteor = new Image();
+                    meteor.src = "meteor1.png";
+                    var meteor2 = new Image();
+                    meteor2.src = "meteor2.png";
+                    var meteor3 = new Image();
+                    meteor3.src = "meteor3.png";
+
+                    //Declare Variables that will be used in the game.
+                    //Key Presses are stored in an array
+                    var keys = [];
+
+                    //Set the characters coordinates in the middle of the canvas
+                    var char = ({
+                        x: 250,
+                        y: 275
+                    });
+
+                    //Lose is false
+                    var lose = false;
+
+                    //Speed of the rock falling
+                    var rockSpeed = 7;
+
+                    //Speed of character
+                    var moveSpeed = 7;
+
+                    //Set location of the rocks and randomize the fall position
+                    var rock = ({
+                        x: (Math.random() * 437) + 1,
+                        y: -100
+                    });
+
+                    //Rock 2 positions
+                    var rock2 = ({
+                        x: (Math.random() * 437) + 1,
+                        y: -200
+                    });
+
+                    //Rock 3 positions
+                    var rock3 = ({
+                        x: (Math.random() * 437) + 1,
+                        y: -300
+                    });
+
+                    //Counter to keep track of points
+                    var score = 0;
+
+                    //Highscore of the players session
+                    var hScore = 0;
+
+                    //Raining rocks and increasing speed
+                    function rain(rockSpeed) {
+                        rock.y += rockSpeed;
+                        rock2.y += rockSpeed;
+                        rock3.y += rockSpeed;
+                    }
+
+                    //Movement for character
+                    function move(speed) {
+                        char.x += speed;
+                    }
+
+                    //Checks if the key is pressed down or released
+                    document.body.addEventListener('keydown', function (e) {
+                        keys[e.keyCode] = true;
+                    });
+                    document.body.addEventListener('keyup', function (e) {
+                        keys[e.keyCode] = false;
+                    });
+
+                    //Tell player controls
+                    alert("Click Game and move with A and D.");
+
+                    //MAIN LOOP FOR GAME.
+                    function loop() {
+                        setTimeout(function () {
+                            requestAnimationFrame(loop);
+                            //"Updates" and clears the canvas so shapes do not drag.
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                            //Colour the canvas.
+                            ctx.fillStyle = ("#99ccff");
+                            ctx.fillRect(0, 0, 500, 350);
+
+                            //Draw the Rock
+                            ctx.drawImage(meteor, rock.x, rock.y);
+
+                            //Draw second rock
+                            ctx.drawImage(meteor2, rock2.x, rock2.y);
+
+                            //Draw third rock
+                            ctx.drawImage(meteor3, rock3.x, rock3.y);
+
+                            //Draw Character
+                            ctx.drawImage(onePunch, char.x, char.y);
+
+
+                            //If player goes over the boundary, he dead
+                            if (char.x < 0 || char.x > 500) {
+                                lose = true;
+                            }
+
+                            //If player gets knocked out by a rock, collision
+                            if ((char.x + 28) >= rock.x && char.x <= (rock.x + 55) && (char.y + 43) >= rock.y && char.y <= (rock.y + 88)) {
+                                lose = true;
+                            }
+                            if ((char.x + 28) >= rock2.x && char.x <= (rock2.x + 63) && (char.y + 43) >= rock2.y && char.y <= (rock2.y + 70)) {
+                                lose = true;
+                            }
+                            if ((char.x + 28) >= rock3.x && char.x <= (rock3.x + 58) && (char.y + 43) >= rock3.y && char.y <= (rock3.y + 76)) {
+                                lose = true;
+                            }
+
+                            //If player is dead, he loses, tells player score and high score
+                            while (lose === true) {
+                                if (score > hScore) {
+                                    hScore = score;
+                                }
+                                keys[65] = false;
+                                keys[68] = false;
+                                alert("You've been hit by too many rocks and fell to your death! You dodged " + score + " rocks!\n\
+                                Your high score is " + hScore);
+
+                                //Reset score
+                                score = 0;
+
+                                //Resets location of player to middle.
+                                char.x = 250;
+
+                                //Resets rock positions,   437 because the width of the biggest meteor will not be out of the screen
+                                rock.x = (Math.random() * 437) + 1;
+                                rock.y = -100;
+
+                                rock2.x = (Math.random() * 437) + 1;
+                                rock2.y = -200;
+
+                                rock3.x = (Math.random() * 437) + 1;
+                                rock3.y = -300;
+                                //Reset the falling speed of the rocks
+                                rockSpeed = 8;
+
+                                //Revive character
+                                lose = false;
+                            }
+
+                            //If rock gets dodged, you get a point for your score and increases the fall speed
+                            if (rock.y > 350) {
+                                rock.y = -100;
+                                rock.x = (Math.random() * 437) + 1;
+                                rockSpeed += 0.1;
+                                score += 1;
+                            }
+                            if (rock2.y > 350) {
+                                rock2.y = -50;
+                                rock2.x = (Math.random() * 437) + 1;
+                                rockSpeed += 0.1;
+                                score += 1;
+                            }
+                            if (rock3.y > 350) {
+                                rock3.y = -50;
+                                rock3.x = (Math.random() * 437) + 1;
+                                rockSpeed += 0.1;
+                                score += 1;
+                            }
+
+                            //If A or D is pressed, move the character
+                            if (keys[65] === true) {
+                                move(-moveSpeed);
+                            }
+                            if (keys[68] === true) {
+                                move(moveSpeed);
+                            }
+
+                            //Changes fall speed at rain();
+                            rain(rockSpeed);
+
+                        }, 1000 / 100);
+                    }
+                    //loop
+                    loop();
+                </script>
+            </div>
+
+
+
+
+        </body></html>
