@@ -33,14 +33,14 @@
                     var ctx = canvas.getContext("2d");
 
                     //Declare Images for character and rocks
-                    var onePunch = new Image();
-                    onePunch.src = "char.png";
+                    var man = new Image();
+                    man.src = "http://i.imgur.com/npFF9uH.jpg";
                     var meteor = new Image();
-                    meteor.src = "meteor1.png";
+                    meteor.src = "http://i.imgur.com/KccRQXI.jpg";
                     var meteor2 = new Image();
-                    meteor2.src = "meteor2.png";
+                    meteor2.src = "http://i.imgur.com/g5SzCKp.jpg";
                     var meteor3 = new Image();
-                    meteor3.src = "meteor3.png";
+                    meteor3.src = "http://i.imgur.com/jGdIj8a.jpg";
 
                     //Declare Variables that will be used in the game.
                     //Key Presses are stored in an array
@@ -129,7 +129,7 @@
                             ctx.drawImage(meteor3, rock3.x, rock3.y);
 
                             //Draw Character
-                            ctx.drawImage(onePunch, char.x, char.y);
+                            ctx.drawImage(man, char.x, char.y);
 
 
                             //If player goes over the boundary, he dead
