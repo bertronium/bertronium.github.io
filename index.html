@@ -26,13 +26,13 @@
                     //Elbert Choi
                     //Dodge Falling Meteors
                     //Jan 7, 2016
-                    //Dodge Rocks
+                    //Dodge meteors that are falling
 
                     //Create the Canvas that the game will be played on
                     var canvas = document.getElementById("canvas");
                     var ctx = canvas.getContext("2d");
 
-                    //Declare Images for character and rocks
+                    //Declare Images for character and rocks/meteors
                     var man = new Image();
                     man.src = "http://i.imgur.com/npFF9uH.jpg";
                     var meteor = new Image();
@@ -85,7 +85,7 @@
                     //Highscore of the players session
                     var hScore = 0;
 
-                    //Raining rocks and increasing speed
+                    //Raining rocks and increasing speed as time progresses
                     function rain(rockSpeed) {
                         rock.y += rockSpeed;
                         rock2.y += rockSpeed;
@@ -106,7 +106,7 @@
                     });
 
                     //Tell player controls
-                    alert("Click Game and move with A and D.");
+                    alert("Move with A and D. Dodge as many meteors as you can!");
 
                     //MAIN LOOP FOR GAME.
                     function loop() {
