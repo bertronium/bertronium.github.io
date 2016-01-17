@@ -26,21 +26,21 @@
                     //Elbert Choi
                     //Dodge Falling Meteors
                     //Jan 7, 2016
-                    //Dodge meteors that are falling
+                    //Dodge Rocks
 
                     //Create the Canvas that the game will be played on
                     var canvas = document.getElementById("canvas");
                     var ctx = canvas.getContext("2d");
 
-                    //Declare Images for character and rocks/meteors
+                    //Declare Images for character and rocks
                     var man = new Image();
-                    man.src = "http://i.imgur.com/npFF9uH.jpg";
+                    man.src = "char.png";
                     var meteor = new Image();
-                    meteor.src = "http://i.imgur.com/KccRQXI.jpg";
+                    meteor.src = "meteor1.png";
                     var meteor2 = new Image();
-                    meteor2.src = "http://i.imgur.com/g5SzCKp.jpg";
+                    meteor2.src = "meteor2.png";
                     var meteor3 = new Image();
-                    meteor3.src = "http://i.imgur.com/jGdIj8a.jpg";
+                    meteor3.src = "meteor3.png";
 
                     //Declare Variables that will be used in the game.
                     //Key Presses are stored in an array
@@ -56,10 +56,10 @@
                     var lose = false;
 
                     //Speed of the rock falling
-                    var rockSpeed = 3;
+                    var rockSpeed = 6.5;
 
                     //Speed of character
-                    var moveSpeed = 7;
+                    var moveSpeed = 8;
 
                     //Set location of the rocks and randomize the fall position
                     var rock = ({
@@ -76,7 +76,7 @@
                     //Rock 3 positions
                     var rock3 = ({
                         x: (Math.random() * 437) + 1,
-                        y: -300
+                        y: -400
                     });
 
                     //Counter to keep track of points
@@ -85,7 +85,7 @@
                     //Highscore of the players session
                     var hScore = 0;
 
-                    //Raining rocks and increasing speed as time progresses
+                    //Raining rocks and increasing speed
                     function rain(rockSpeed) {
                         rock.y += rockSpeed;
                         rock2.y += rockSpeed;
@@ -106,7 +106,8 @@
                     });
 
                     //Tell player controls
-                    alert("Move with A and D. Dodge as many meteors as you can!");
+                    alert("Move with A and D.\n\
+                                    Dodge as many meteors as you can!");
 
                     //MAIN LOOP FOR GAME.
                     function loop() {
@@ -132,9 +133,12 @@
                             ctx.drawImage(man, char.x, char.y);
 
 
-                            //If player goes over the boundary, he dead
-                            if (char.x < 0 || char.x > 500) {
-                                lose = true;
+                            //Do not let character off the canvas.
+                            if (char.x <= 0) {
+                                char.x = 0;
+                            }
+                            if (char.x + 28 > 500) {
+                                char.x = 500 - 28;
                             }
 
                             //If player gets knocked out by a rock, collision
@@ -155,8 +159,8 @@
                                 }
                                 keys[65] = false;
                                 keys[68] = false;
-                                alert("You've been hit by too many rocks and fell to your death! You dodged " + score + " rocks!\n\
-                                Your high score is " + hScore);
+                                alert("You've been hit by a meteor and fell to your death! You dodged " + score + " rocks!\n\
+                                Your high score is " + hScore + "!");
 
                                 //Reset score
                                 score = 0;
@@ -172,7 +176,7 @@
                                 rock2.y = -200;
 
                                 rock3.x = (Math.random() * 437) + 1;
-                                rock3.y = -300;
+                                rock3.y = -400;
                                 //Reset the falling speed of the rocks
                                 rockSpeed = 8;
 
@@ -181,6 +185,7 @@
                             }
 
                             //If rock gets dodged, you get a point for your score and increases the fall speed
+                            //Meteors also get put back above the screen/canvas
                             if (rock.y > 350) {
                                 rock.y = -100;
                                 rock.x = (Math.random() * 437) + 1;
@@ -188,23 +193,23 @@
                                 score += 1;
                             }
                             if (rock2.y > 350) {
-                                rock2.y = -50;
+                                rock2.y = -200;
                                 rock2.x = (Math.random() * 437) + 1;
                                 rockSpeed += 0.1;
                                 score += 1;
                             }
                             if (rock3.y > 350) {
-                                rock3.y = -50;
+                                rock3.y = -400;
                                 rock3.x = (Math.random() * 437) + 1;
                                 rockSpeed += 0.1;
                                 score += 1;
                             }
 
                             //If A or D is pressed, move the character
-                            if (keys[65] === true) {
+                            if (keys[65] === true) {//A
                                 move(-moveSpeed);
                             }
-                            if (keys[68] === true) {
+                            if (keys[68] === true) {//D
                                 move(moveSpeed);
                             }
 
